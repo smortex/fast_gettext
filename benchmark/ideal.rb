@@ -6,7 +6,9 @@ module FastestGettext
   def set_domain(folder, domain, locale)
     @data = {}
     require 'fast_gettext/vendor/mofile'
-    FastGettext::GetText::MOFile.open(File.join(folder, locale, 'LC_MESSAGES', "#{domain}.mo"), "UTF-8").each { |k, v| @data[k] = v }
+    FastGettext::GetText::MOFile.open(File.join(folder, locale, 'LC_MESSAGES', "#{domain}.mo"), "UTF-8").each do |k, v|
+      @data[k] = v
+    end
   end
 
   def _(word)

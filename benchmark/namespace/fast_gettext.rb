@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Iconv will not be defined, unless it is found -> normalize test results for users that have Iconv/those who do not have it
+# Iconv will not be defined, unless it is found -> normalize test results for
+# users that have Iconv/those who do not have it
 begin; require 'iconv'; rescue StandardError; LoadError; end
 initial = methods.count + Module.constants.count
 

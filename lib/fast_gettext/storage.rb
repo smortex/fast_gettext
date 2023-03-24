@@ -63,7 +63,8 @@ module FastGettext
     # if overwritten by user( FastGettext.pluralisation_rule = xxx) use it,
     # otherwise fall back to repo or to default lambda
     def pluralisation_rule
-      Thread.current[:fast_gettext_pluralisation_rule] || current_repository.pluralisation_rule || DEFAULT_PLURALIZATION_RULE
+      Thread.current[:fast_gettext_pluralisation_rule] || current_repository.pluralisation_rule ||
+        DEFAULT_PLURALIZATION_RULE
     end
 
     def cache
@@ -94,7 +95,7 @@ module FastGettext
     end
 
     def cached_plural_find(*keys)
-      key = '||||' + keys * '||||'
+      key = "||||#{keys * '||||'}"
       cache.fetch(key) { current_repository.plural(*keys) }
     end
 
@@ -162,7 +163,8 @@ module FastGettext
 
     # de-de,DE-CH;q=0.9 -> ['de_DE','de_CH']
     def formatted_sorted_locales(locales)
-      found = weighted_locales(locales).reject(&:empty?).sort_by(&:last).reverse # sort them by weight which is the last entry
+      # sort them by weight which is the last entry
+      found = weighted_locales(locales).reject(&:empty?).sort_by(&:last).reverse
       found.flatten.map { |l| format_locale(l) }
     end
 
@@ -185,7 +187,7 @@ module FastGettext
 
     # de-de -> de_DE
     def format_locale(locale)
-      locale.sub(/^([a-zA-Z]{2,3})[-_]([a-zA-Z]{2,3})$/) { $1.downcase + '_' + $2.upcase }
+      locale.sub(/^([a-zA-Z]{2,3})[-_]([a-zA-Z]{2,3})$/) { "#{$1.downcase}_#{$2.upcase}" }
     end
 
     def switch_cache

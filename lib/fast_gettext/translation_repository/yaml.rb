@@ -79,8 +79,8 @@ module FastGettext
         result
       end
 
-      def yaml_dot_notation(a, b) # rubocop:disable Naming/UncommunicativeMethodParamName
-        a ? "#{a}.#{b}" : b
+      def yaml_dot_notation(prefix, key)
+        prefix ? "#{prefix}.#{key}" : key
       end
     end
   end
